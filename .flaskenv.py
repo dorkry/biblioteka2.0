@@ -1,1 +1,1 @@
-FLASK_APP=library20.py
+FLASK_APP = library20.py
