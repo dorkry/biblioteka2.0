@@ -75,7 +75,8 @@ def update2():
     else:
         authorName2 = ""
         authorSurname2 = ""
-    return render_template('update.html', id = id, title = title, authorName = authorName, authorName2 = authorName2, authorSurname = authorSurname, authorSurname2 = authorSurname2)
+    
+    return render_template('update.html', id = id, title = title, authorName = authorName, authorName2 = authorName2, authorSurname = authorSurname, authorSurname2 = authorSurname2, available = b.is_available)
 
 @app.route("/update", methods =['POST'])
 def update_post():
@@ -85,9 +86,15 @@ def update_post():
     authorSurname = request.form.get("authorSurname")
     authorName2 = request.form.get("authorName2")
     authorSurname2 = request.form.get("authorSurname2")
+    available = request.form.get('available')
+    if available:
+        available = True
+    else:
+        available = False
     
     b = Book.query.filter(Book.id == id).first()
     b.title = title
+    b.is_available = available
     db.session.add(b)
     b.authors = []
     if not Author.query.filter(Author.name == authorName, Author.surname == authorSurname).first():
